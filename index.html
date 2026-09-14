@@ -28,18 +28,11 @@
 
   /* ---------- MARCA D'ÁGUA ---------- */
   .watermark-overlay{
-    position:fixed; top:50%; left:50%;
-    width:280vw; height:280vh;
-    transform:translate(-50%,-50%) rotate(-26deg);
-    pointer-events:none; z-index:400; opacity:.55;
-    mix-blend-mode:difference;
-    display:flex; flex-wrap:wrap; align-content:flex-start; justify-content:flex-start;
-    overflow:hidden;
-  }
-  .watermark-overlay span{
-    display:inline-block; white-space:nowrap; margin:42px 48px;
-    font-family:Georgia,serif; font-weight:700; font-size:13px; letter-spacing:1.5px;
-    color:#ffffff;
+    position:fixed; inset:0;
+    pointer-events:none; z-index:400;
+    opacity:.55; mix-blend-mode:difference;
+    background-repeat:repeat;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='380' height='180'%3E%3Ctext x='-40' y='100' font-family='Georgia, serif' font-size='13' font-weight='700' fill='%23ffffff' transform='rotate(-26 190 90)'%3E100%25 FICTICIO - NAO INFLUENCIA APOSTAS REAIS%3C/text%3E%3C/svg%3E");
   }
 
   .disclaimer{
@@ -608,27 +601,8 @@
 
 <script>
   /* ============ MARCA D'ÁGUA ============ */
-  (function(){
-    const wm = document.getElementById('watermarkOverlay');
-    const wmText = '100% FICTÍCIO · NÃO INFLUENCIA APOSTAS REAIS';
-    function fillWatermark(){
-      wm.innerHTML = '';
-      // número fixo e generoso: cobre até telas grandes de desktop, sem depender
-      // de medir scrollHeight (o contêiner já tem altura fixa via CSS, então essa
-      // medição nunca detectava "faltando conteúdo").
-      const COUNT = 600;
-      const frag = document.createDocumentFragment();
-      for(let i=0;i<COUNT;i++){
-        const s = document.createElement('span');
-        s.textContent = wmText;
-        frag.appendChild(s);
-      }
-      wm.appendChild(frag);
-    }
-    fillWatermark();
-    window.addEventListener('resize', fillWatermark);
-    window.addEventListener('orientationchange', fillWatermark);
-  })();
+  /* Marca d'água agora é 100% CSS (background tile que se repete infinitamente),
+     então nenhum JS é necessário para preencher a tela em qualquer dispositivo. */
 
   /* ============ SALDO ============ */
   let balance = 1000;
