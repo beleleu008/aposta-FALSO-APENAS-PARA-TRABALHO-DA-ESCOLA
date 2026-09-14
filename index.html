@@ -300,6 +300,45 @@
     text-align:center; font-size:15px; line-height:1.6; color:var(--cream); padding:18px 6px;
   }
   .gate-bye strong{color:var(--gold-bright); display:block; margin-bottom:8px; font-size:18px;}
+
+  /* ---------- MARCA D'ÁGUA DE SIMULAÇÃO ---------- */
+.fiction-watermark {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 99999;
+
+  padding: 7px 14px;
+  border: 1px solid rgba(242, 207, 91, 0.35);
+  border-radius: 6px;
+
+  background: rgba(0, 0, 0, 0.28);
+  color: rgba(242, 207, 91, 0.62);
+
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-align: center;
+  white-space: nowrap;
+
+  pointer-events: none;
+  user-select: none;
+
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+@media (max-width: 600px) {
+  .fiction-watermark {
+    bottom: 10px;
+    font-size: 9px;
+    padding: 5px 9px;
+  }
+}
 </style>
 </head>
 <body>
