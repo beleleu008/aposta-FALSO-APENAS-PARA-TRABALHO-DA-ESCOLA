@@ -25,6 +25,23 @@
     display:flex; flex-direction:column; align-items:center;
     padding:20px 12px 50px;
   }
+
+  /* ---------- MARCA D'ÁGUA ---------- */
+  .watermark-overlay{
+    position:fixed; top:50%; left:50%;
+    width:220vw; height:220vh;
+    transform:translate(-50%,-50%) rotate(-26deg);
+    pointer-events:none; z-index:400; opacity:.55;
+    mix-blend-mode:difference;
+    display:flex; flex-wrap:wrap; align-content:flex-start; justify-content:flex-start;
+    overflow:hidden;
+  }
+  .watermark-overlay span{
+    display:inline-block; white-space:nowrap; margin:42px 48px;
+    font-family:Georgia,serif; font-weight:700; font-size:13px; letter-spacing:1.5px;
+    color:#ffffff;
+  }
+
   .disclaimer{
     max-width:540px; text-align:center; font-size:12px; line-height:1.5;
     background:rgba(0,0,0,.35); border:1px solid var(--gold); border-radius:6px;
@@ -300,48 +317,11 @@
     text-align:center; font-size:15px; line-height:1.6; color:var(--cream); padding:18px 6px;
   }
   .gate-bye strong{color:var(--gold-bright); display:block; margin-bottom:8px; font-size:18px;}
-
-  /* ---------- MARCA D'ÁGUA DE SIMULAÇÃO ---------- */
-.fiction-watermark {
-  position: fixed;
-  left: 50%;
-  bottom: 18px;
-  transform: translateX(-50%);
-  z-index: 99999;
-
-  padding: 7px 14px;
-  border: 1px solid rgba(242, 207, 91, 0.35);
-  border-radius: 6px;
-
-  background: rgba(0, 0, 0, 0.28);
-  color: rgba(242, 207, 91, 0.62);
-
-  font-family: Arial, sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  text-align: center;
-  white-space: nowrap;
-
-  pointer-events: none;
-  user-select: none;
-
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-}
-
-@media (max-width: 600px) {
-  .fiction-watermark {
-    bottom: 10px;
-    font-size: 9px;
-    padding: 5px 9px;
-  }
-}
 </style>
 </head>
 <body>
+
+  <div class="watermark-overlay" id="watermarkOverlay" aria-hidden="true"></div>
 
   <svg width="0" height="0" style="position:absolute">
     <defs>
@@ -449,13 +429,11 @@
       <div class="gate-sub">LEIA COM ATENÇÃO</div>
 
       <ul class="gate-points">
-        <li><span class="mark">1</span><span>Este é um <b>trabalho escolar</b>. Tudo aqui é uma simulação feita para TEATRO ao icentivamos NADA e recomendamos fortemente NAO APOSTAR.</span></li>
-        <li><span class="mark">2</span><span>Ministério da Fazenda adverte:<b>Apostar faz você perder dinheiro.</b></span></li>
-        <li><span class="mark">3</span><span>Ministério da Fazenda adverte:<b>Apostar faz você ficar dependente.</b></span></li>
-        <li><span class="mark">4</span><span>Ministério da Fazenda adverte:<b>Aposta nao é investimento</b></span></li>
-        <li><span class="mark">5</span><span>O dinheiro é <b>totalmente fictício</b>. Não há depósito, saque, prêmio, pagamento ou qualquer conexão com dinheiro de verdade.</span></li>
-        <li><span class="mark">6</span><span>Este projeto <b>não incentiva apostas</b>. Em todos os jogos de cassino a matemática favorece a casa: no longo prazo o jogador perde. É justamente isso que a simulação mostra.</span></li>
-        <li><span class="mark">7</span><span>Apostar é <b>proibido para menores de 18 anos</b> e pode causar dependência, prejuízos financeiros e sofrimento para a pessoa e sua família.</span></li>
+        <li><span class="mark">1</span><span>Este é um <b>trabalho escolar</b>. Tudo aqui é uma simulação feita para APENAS TEATRO NAO INFLUENCIAMOS NADA AQUI NAO APOSTE!!!!</span></li>
+        <li><span class="mark">1</span><span>Ministério da Fazenda adverte:<b>Apostar faz você perder dinheiro.</b></span></li>
+        <li><span class="mark">2</span><span>O dinheiro é <b>totalmente fictício</b>. Não há depósito, saque, prêmio, pagamento ou qualquer conexão com dinheiro de verdade.</span></li>
+        <li><span class="mark">3</span><span>Este projeto <b>não incentiva apostas</b>. Em todos os jogos de cassino a matemática favorece a casa: no longo prazo o jogador perde. É justamente isso que a simulação mostra.</span></li>
+        <li><span class="mark">4</span><span>Apostar é <b>proibido para menores de 18 anos</b> e pode causar dependência, prejuízos financeiros e sofrimento para a pessoa e sua família.</span></li>
       </ul>
 
       <label class="gate-check" for="gateAgree">
@@ -629,6 +607,18 @@
   <div class="history" id="history"></div>
 
 <script>
+  /* ============ MARCA D'ÁGUA ============ */
+  (function(){
+    const wm = document.getElementById('watermarkOverlay');
+    const wmText = '100% FICTÍCIO · NÃO INFLUENCIA APOSTAS REAIS';
+    // gera cópias suficientes para cobrir a área ampliada (220vw x 220vh) mesmo rotacionada
+    for(let i=0;i<90;i++){
+      const s = document.createElement('span');
+      s.textContent = wmText;
+      wm.appendChild(s);
+    }
+  })();
+
   /* ============ SALDO ============ */
   let balance = 1000;
   const balanceEl = document.getElementById('balance');
@@ -1104,7 +1094,7 @@
     slotSpinning = false;
     slotSpinBtn.disabled = balance <= 0;
     slotChips.forEach(b=>b.disabled = false);
-    if(balance <= 0) slotMessageEl.textContent = 'Saldo zerado! Reinicie para jogar de novo.';
+    if(balance<=0) slotMessageEl.textContent = 'Saldo zerado! Reinicie para jogar de novo.';
   }
   slotSpinBtn.addEventListener('click', spinSlot);
 
