@@ -29,7 +29,7 @@
   /* ---------- MARCA D'ÁGUA ---------- */
   .watermark-overlay{
     position:fixed; top:50%; left:50%;
-    width:220vw; height:220vh;
+    width:280vw; height:280vh;
     transform:translate(-50%,-50%) rotate(-26deg);
     pointer-events:none; z-index:400; opacity:.55;
     mix-blend-mode:difference;
@@ -429,7 +429,7 @@
       <div class="gate-sub">LEIA COM ATENÇÃO</div>
 
       <ul class="gate-points">
-        <li><span class="mark">1</span><span>Este é um <b>trabalho escolar</b>. Tudo aqui é uma simulação feita para APENAS TEATRO NAO INFLUENCIAMOS NADA AQUI NAO APOSTE!!!!</span></li>
+        <li><span class="mark">1</span><span>Este é um <b>trabalho escolar</b>. Tudo aqui é uma simulação feita para estudar probabilidade, programação e como jogos de azar funcionam por dentro.</span></li>
         <li><span class="mark">1</span><span>Ministério da Fazenda adverte:<b>Apostar faz você perder dinheiro.</b></span></li>
         <li><span class="mark">2</span><span>O dinheiro é <b>totalmente fictício</b>. Não há depósito, saque, prêmio, pagamento ou qualquer conexão com dinheiro de verdade.</span></li>
         <li><span class="mark">3</span><span>Este projeto <b>não incentiva apostas</b>. Em todos os jogos de cassino a matemática favorece a casa: no longo prazo o jogador perde. É justamente isso que a simulação mostra.</span></li>
@@ -611,12 +611,23 @@
   (function(){
     const wm = document.getElementById('watermarkOverlay');
     const wmText = '100% FICTÍCIO · NÃO INFLUENCIA APOSTAS REAIS';
-    // gera cópias suficientes para cobrir a área ampliada (220vw x 220vh) mesmo rotacionada
-    for(let i=0;i<90;i++){
-      const s = document.createElement('span');
-      s.textContent = wmText;
-      wm.appendChild(s);
+    function fillWatermark(){
+      wm.innerHTML = '';
+      // número fixo e generoso: cobre até telas grandes de desktop, sem depender
+      // de medir scrollHeight (o contêiner já tem altura fixa via CSS, então essa
+      // medição nunca detectava "faltando conteúdo").
+      const COUNT = 600;
+      const frag = document.createDocumentFragment();
+      for(let i=0;i<COUNT;i++){
+        const s = document.createElement('span');
+        s.textContent = wmText;
+        frag.appendChild(s);
+      }
+      wm.appendChild(frag);
     }
+    fillWatermark();
+    window.addEventListener('resize', fillWatermark);
+    window.addEventListener('orientationchange', fillWatermark);
   })();
 
   /* ============ SALDO ============ */
